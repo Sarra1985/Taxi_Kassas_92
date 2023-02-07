@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Kassas Taxi 92 {% endblock %}
+
+{% block body %}
+
+{% if homeSlider %}
+
+{{ include("partials/title_section.html.twig", { 'name':'Page Accueil'}) }}
+
+{{ include("partials/home_slider.html.twig", { 'slider':homeSlider}) }}
+
+{% endif %}
+<div class="container">
+<div class="section small_pt pb_70">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-6">
+            	<div class="heading_s1 text-center">
+                	
+                    <a class="nav-link active" id="taxi-tab" data-toggle="tab" href="#" role="tab" aria-controls="taxi" aria-selected="true"> <h2>Exclusive Taxi</h2></a>
+                </div>
+            </div>
+		</div>
+
+        <div class="row">
+        	<div class="col-12">
+            	<div class="tab-style1">
+                    <ul class="nav nav-tabs justify-content-center" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" id="luxe-tab" data-toggle="tab" href="#luxe" role="tab" aria-controls="luxe" aria-selected="false"> Taxi VIP </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="cpam-tab" data-toggle="tab" href="#cpam" role="tab" aria-controls="cpam" aria-selected="false">Taxis CPAM</a>
+                        </li>
+                         <li class="nav-item">
+                            <a class="nav-link" id="van-tab" data-toggle="tab" href="#van" role="tab" aria-controls="van" aria-selected="false">Taxis Van</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="fete-tab" data-toggle="tab" href="#fete" role="tab" aria-controls="fete" aria-selected="false">Taxi Break </a>
+                        </li>
+
+                    </ul>
+                </div>
+
+
+                <div class="tab-content">
+                   
+
+                	<div class="tab-pane fade show active" id="luxe" role="tabpanel" aria-labelledby="luxe-tab">
+                        <div class="row shop_container">
+                            {% for taxi in taxiLuxe %}
+                              {{ include('partials/taxi.html.twig',{'taxi':taxi}) }}
+                                
+                            {% endfor %}
+                    </div>
+                    </div>
+
+
+                    <div class="tab-pane fade" id="cpam" role="tabpanel" aria-labelledby="cpam-tab">
+                        <div class="row shop_container">
+
+                         {% for taxi in taxiCpam %}
+                              {{ include('partials/taxi.html.twig',{'taxi':taxi}) }}
+                                
+                            {% endfor %}
+                           
+                                    
+                            </div>
+                        </div>
+
+
+                        <div class="tab-pane fade  " id="van" role="tabpanel" aria-labelledby="van-tab">
+                        <div class="row shop_container">
+                            {% for taxi in taxiVan %}
+                              {{ include('partials/taxi.html.twig',{'taxi':taxi}) }}
+                                
+                            {% endfor %}
+                    </div>
+                    </div>
+
+                      <div class="tab-pane fade  " id="fete" role="tabpanel" aria-labelledby="fete-tab">
+                        <div class="row shop_container">
+                            {% for taxi in taxiFete %}
+                              {{ include('partials/taxi.html.twig',{'taxi':taxi}) }}
+                                
+                            {% endfor %}
+                    </div>
+                    </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}
+
+
+
+    
+   
+
+

@@ -1,0 +1,159 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Compte Kassas Taxi 92{% endblock %}
+
+{% block body %}
+{{ include("partials/title_section.html.twig",{'name':'Your Account !'}) }}
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-4">
+                <div class="dashboard_menu">
+                    <ul class="nav nav-tabs flex-column" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" id="dashboard-tab" data-toggle="tab" href="#dashboard" role="tab" aria-controls="dashboard" aria-selected="false"><i class="ti-layout-grid2"></i>Dashboard</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="orders-tab" data-toggle="tab" href="#orders" role="tab" aria-controls="orders" aria-selected="false"><i class="fas fa-car"></i>Mes Reservations </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="address-tab" data-toggle="tab" href="{{ path('home') }}" role="tab" aria-controls="home" aria-selected="true"><i class="icon-calendar"></i>Reserver Maintenant</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="account-detail-tab" data-toggle="tab" href="#account-detail" role="tab" aria-controls="account-detail" aria-selected="true"><i class="ti-id-badge"></i>Details de compte </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_logout')}}"><i class="ti-lock"></i>Déconnection</a>
+                      </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-8">
+
+                  
+
+                <div class="tab-content dashboard_content">
+                      <div class="tab-pane fade active show" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>HELLO {{ app.user.firstname | upper}}  {{ app.user.lastname| upper }} </h3>
+                            </div>
+                            <div class="card-body">
+
+                                <p>From your account dashboard. you can easily check &amp; view your <a href="javascript:void(0);" onclick="$('#orders-tab').trigger('click')">recent orders</a>, manage your <a href="javascript:void(0);" onclick="$('#address-tab').trigger('click')">shipping and billing addresses</a> and <a href="javascript:void(0);" onclick="$('#account-detail-tab').trigger('click')">edit your password and account details.</a></p>
+                            {% if  is_granted('ROLE_ADMIN') %}
+                               <a href="{{ path('admin') }}" target="_blank" class="btn btn-fill-out">Access the backoffice </a>
+
+                            {% endif %}
+                            </div>
+                        </div>
+                      </div>
+                      <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Mes Reservations</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                 <th>  #</th>
+                                                <th>adresse de depart</th>
+                                                <th>adresse d'arrivée</th>
+                                                <th>Date de reservation </th>
+                                                <th>heure de reservation </th>
+                                                <th>Id chauffeur </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% if app.user.reservations %}
+                                        {% set index = 0 %}
+                                        {% for reservation in app.user.reservations %}
+                                             {% set index = index + 1 %}
+                                            <tr>
+                                                <td>{{index}}</td>
+                                                <td>{{reservation.adresse1}}</td>
+                                                <td>{{reservation.adresse2}}</td>
+                                                <td>{{reservation.date|date('Y-m-d')}}</td>
+                                                <td>{{reservation.heureDepart|date('H:i:s')}}</td>
+                                                <td>{{reservation.taxi.id}}
+                                                <td><a href="{{ path('app_reservation_show',{'id':reservation.id})}}" class="btn btn-fill-out btn-sm">View</a></td>
+                                            </tr>
+                                        {% endfor %}
+
+                                        {% else %}
+
+                                               <p> Désole ,  vous avez pas effectuée une reservation  </p>
+                                
+                                        {% endif %}
+                               
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+
+
+                    
+
+                       
+                    
+                    <div class="tab-pane fade" id="account-detail" role="tabpanel" aria-labelledby="account-detail-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Account Details</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>Already have an account? <a href="#">Log in instead!</a></p>
+                                <form method="post" name="enq">
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label>First Name <span class="required">*</span></label>
+                                            <input required="" value="{{ app.user.firstname }}" class="form-control" name="name" type="text">
+                                         </div>
+                                         <div class="form-group col-md-6">
+                                            <label>Last Name <span class="required">*</span></label>
+                                            <input required="" class="form-control" value="{{ app.user.lastname }}" name="phone">
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label>Display Name <span class="required">*</span></label>
+                                            <input required="" value="{{ app.user.username }}" class="form-control" name="dname" type="text">
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label>Email Address <span class="required">*</span></label>
+                                            <input required="" class="form-control" value="{{ app.user.email }}" name="email" type="email">
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label>Phone  <span class="required">*</span></label>
+                                            <input required="" class="form-control" value="{{ app.user.phone }}" name="email" type="email">
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label>Current Password <span class="required">*</span></label>
+                                            <input required="" class="form-control"  name="password" type="password">
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label>New Password <span class="required">*</span></label>
+                                            <input required="" class="form-control" name="npassword" type="password">
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label>Confirm Password <span class="required">*</span></label>
+                                            <input required="" class="form-control" name="cpassword" type="password">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <button type="submit" class="btn btn-fill-out" name="submit" value="Submit">Save</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

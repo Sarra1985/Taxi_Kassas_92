@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editer La Réservation{% endblock %}
+
+{% block body %}
+{{ include("partials/title_section.html.twig", { 'name':'Editer la Réservation'}) }}
+    <h1>Editer la Réservation</h1>
+
+    {{ include('reservation/_form.html.twig', {'button_label': 'Update'}) }}
+
+    {{ include('reservation/_delete_form.html.twig') }}
+{% endblock %}

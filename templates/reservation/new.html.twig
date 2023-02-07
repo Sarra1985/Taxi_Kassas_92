@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reservation{% endblock %}
+
+{% block body %}
+{{ include("partials/title_section.html.twig", { 'name':'Réserver'}) }}
+   <div class="login_register_wrap section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="login_wrap">
+            		<div class="padding_eight_all bg-white">
+                   
+                        <div class="heading_s1">
+                            <h3>Reserver </h3>
+                        </div>
+                         <div class="container">
+                        
+                          {{ form(form)}}
+                         </div>
+              </div>
+            </div>
+        </div>
+        <div class="container">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2628.928373529636!2d2.2410465759790403!3d48.78325767132207!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e67a23f98c1227%3A0x1f33e370d44f8307!2s5%20Rue%20de%20Bretagne%2C%2092140%20Clamart!5e0!3m2!1sfr!2sfr!4v1671283558430!5m2!1sfr!2sfr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div> 
+    </div>
+  </div>
+
+<script>
+     $(".adresse1").autocomplete({
+    source: function (request, response) {
+        $.ajax({
+            url: "https://api-adresse.data.gouv.fr/search/?postcode="+$("name='adresse1'").val(),
+            data: { q: request.term },
+            dataType: "json",
+            success: function (data) {
+                response($.map(data.features, function (item) {
+                    return { label: item.properties.name, value: item.properties.name};
+                }));
+            }
+        });
+    }
+});
+</script>
+    
+{% endblock %}
+
+
